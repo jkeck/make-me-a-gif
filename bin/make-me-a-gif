@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'mini_exiftool'
+require 'optparse'
+
+system_dependencies = {
+  ffmpeg: `which ffmpeg`,
+  gifsicle: `which gifsicle`
+}
+
+system_dependencies.each do |name, dependency|
+  if dependency.empty?
+    raise Exception.new("\"#{name}\" does not appear to be in the load path.  Please install it.")
+  end
+end
+
+
+options = {scale: 2}
+OptionParser.new do |opts|
+  opts.banner = "Usage: make-me-a-gif [options]"
+
+  opts.on("-p [PATH]", "--path [PATH]", String, "Path to mov file") do |path|
+    options[:path] = path
+  end
+
+  opts.on("-g [PATH]", "--gif-path [PATH]", "Full path to save the gif to (including file name)") do |gif_path|
+    options[:gif_path] = gif_path
+  end
+
+  opts.on("-s [SCALE]", "--scale [SCALE]", "How to scale the movie down.  A value of 2 would scale a 400x300 video to 200x150 (defaults to 2)") do |scale|
+    options[:scale] = scale
+  end
+
+end.parse!
+
+raise OptionParser::MissingArgument unless options[:path]
+
+exif_data = MiniExiftool.new(options[:path])
+
+scaled_height = exif_data[:imageHeight] / options[:scale].to_i
+scaled_width = exif_data[:imageWidth] / options[:scale].to_i
+
+gif_name = File.basename(options[:path], '.mov')
+options[:gif_path] ||= "#{File.dirname(options[:path])}/#{gif_name}.gif"
+
+
+system("ffmpeg -i #{options[:path]} -s #{scaled_width}x#{scaled_height} -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > #{options[:gif_path]}")
