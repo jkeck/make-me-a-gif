@@ -13,14 +13,14 @@ You must have ffmpeg and gifsicle installed
 ## Usage
 
     Usage: make-me-a-gif [options]
-        -p, --path [PATH]                Path to mov file
-        -g, --gif-path [PATH]            Full path to save the gif to (including file name)
-        -s, --scale [SCALE]              How to scale the movie down.  A value of 2 would scale a 400x300 video to 200x150 (defaults to 2)
+        -p, --path [PATH]                Path to the .mov file
+        -g, --gif-path [PATH]            Full path to save the gif to, including file name. (Defaults to the same file name/directory with a .gif extension)
+        -s, --scale [SCALE]              How to scale the movie down.  A value of 2 would scale a 400x300 video to 200x150. (Defaults to 2)
 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/make-me-a-gif/fork )
+1. Fork it ( https://github.com/jkeck/make-me-a-gif/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
