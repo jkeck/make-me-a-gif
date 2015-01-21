@@ -2,9 +2,13 @@
 
 This is a crude script intended mainly to turn a video captured using Quicktime's Record Screen function and turn it into a gif (allowing for aspect-ratio retaining downscaling).
 
+## Installation
+
+    $ gem install make-me-a-gif
+
 ## Requirements
 
-You must have ffmpeg and gifsicle installed
+You must also have ffmpeg and gifsicle installed.
 
     $ brew install ffmpeg
     $ brew install gifsicle
